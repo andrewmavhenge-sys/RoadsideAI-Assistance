@@ -1,0 +1,120 @@
+:focus-visible {
+  outline: 3px solid #174eb5;
+  outline-offset: 3px;
+}
+
+body,
+button,
+input,
+textarea,
+select,
+h1,
+h2,
+h3,
+.brand strong {
+  font-family: "Segoe UI", Arial, sans-serif !important;
+}
+
+.header-new {
+  white-space: nowrap;
+}
+
+.urgent-alert {
+  padding: 18px 20px;
+  color: #641d1d;
+  background: #fff0f0;
+  border: 2px solid #bc3434;
+  border-radius: 14px;
+}
+
+.urgent-label {
+  display: block;
+  color: #8f2020;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.matched-keywords {
+  margin: 5px 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.urgent-copy {
+  margin: 4px 0 8px;
+  font-size: 12px;
+}
+
+.urgent-alert .urgent-advice {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.urgent-alert .urgent-advice li {
+  margin: 5px 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.urgent-alert .urgent-disclaimer {
+  margin: 8px 0 0;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.urgent-alert .urgent-advice li::before {
+  display: none;
+}
+
+.symptoms-list li::before {
+  content: "✓";
+  top: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  color: #345ea8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.result-card li {
+  color: #44536a;
+}
+
+.field-meta,
+.empty-feature small,
+.privacy-note,
+.disclaimer {
+  color: #58677d;
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #69778b;
+  opacity: 1;
+}
+
+.loading-state p,
+.panel-heading p,
+.empty-state > p {
+  color: #5a687c;
+}
+
+@media (max-width: 540px) {
+  .header-new {
+    padding: 7px 8px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

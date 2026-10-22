@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>RoadsideAI — Intelligent Roadside Assistance</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='accessibility.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="RoadsideAI home">
+        <span class="brand-mark" aria-hidden="true">R<span>+</span></span>
+        <span><strong>RoadsideAI</strong><small>INTELLIGENT ROADSIDE ASSISTANCE</small></span>
+      </a>
+      <div class="topbar-right">
+        <div id="connection" class="connection" role="status" aria-live="polite"><span class="status-dot"></span><span>Checking local AI…</span></div>
+        <span class="local-pill"><span aria-hidden="true">●</span> LOCAL AI</span>
+        <button type="button" class="header-new secondary-button" data-new-assessment>New Assessment</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span class="eyebrow-line"></span> HELP WHEN THE ROAD DOESN’T GO TO PLAN</div>
+        <h1>Breakdown happens.<br><span>Know your next move.</span></h1>
+        <p class="hero-copy">Describe what’s happening with your vehicle. Get a clear, safety-first assessment powered by your local AI.</p>
+        <div class="trust-row"><span>◇ Runs on your device</span><span>◇ Safety-first guidance</span><span>◇ No paid AI API</span></div>
+      </section>
+
+      <div class="workspace">
+        <section class="panel report-panel">
+          <div class="panel-heading">
+            <div><span class="step-label">STEP 01</span><h2>Describe the problem</h2><p>Share the symptoms you’ve noticed.</p></div>
+            <span class="heading-icon" aria-hidden="true">⌁</span>
+          </div>
+
+          <form id="assessment-form">
+            <label for="description">What happened?</label>
+            <textarea id="description" name="description" rows="5" maxlength="2000" aria-describedby="description-help char-count" placeholder="Describe what happened to your vehicle…" required></textarea>
+            <div class="field-meta"><span id="description-help">Be as specific as you can.</span><span id="char-count" aria-live="polite">0 / 2000</span></div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="vehicle-type">Vehicle type</label>
+                <select id="vehicle-type">
+                  <option value="">Select if known</option><option>Car</option><option>Motorcycle</option><option>Van</option><option>Truck</option><option>Bus</option><option>Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="make-model">Make / model (optional)</label>
+                <input id="make-model" type="text" placeholder="e.g. Honda City">
+              </div>
+              <div class="field">
+                <label for="powertrain">Powertrain</label>
+                <select id="powertrain">
+                  <option value="">Select if known</option><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option><option>CNG / LPG</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label for="can-move">Can the vehicle move safely?</label>
+              <select id="can-move">
+                <option value="">Not sure / not specified</option><option>No, it cannot move</option><option>Yes, but there are warning signs</option><option>Yes, no obvious warning signs</option>
+              </select>
+            </div>
+
+            <div class="examples">
+              <div class="examples-label">TRY AN EXAMPLE</div>
+              <div class="example-buttons">
+                <button type="button" class="example-chip" data-example="My engine temperature gauge is in the red and steam is coming from under the bonnet.">♨ Overheating</button>
+                <button type="button" class="example-chip" data-example="I have a flat tire on the roadside and traffic is passing close by.">◉ Flat tire</button>
+                <button type="button" class="example-chip" data-example="My car will not start. The dashboard lights turn on but I hear clicking when I turn the key.">ϟ Won’t start</button>
+                <button type="button" class="example-chip" data-example="My dashboard warning light came on while I was driving.">⚠ Warning lights</button>
+                <button type="button" class="example-chip" data-example="There is smoke coming from the engine bay and a burning smell.">⚠ Smoke / burning smell</button>
+              </div>
+            </div>
+
+            <button id="submit-button" class="primary-button" type="submit"><span class="button-icon">✦</span><span id="button-label">Analyze breakdown</span><span class="button-arrow">→</span></button>
+            <p class="privacy-note"><span>▣</span> Your description is sent to your local Ollama instance on this computer.</p>
+          </form>
+        </section>
+
+        <section class="results-column" aria-live="polite">
+          <div id="empty-state" class="panel empty-state" aria-live="polite">
+            <div class="empty-art"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="car-icon">↗</div><span class="art-spark spark-one">✦</span><span class="art-spark spark-two">✧</span></div>
+            <span class="step-label">YOUR ASSESSMENT</span>
+            <h2>Your next step starts here.</h2>
+            <p>Once you submit a breakdown description, your assessment will appear here with clear actions and safety guidance.</p>
+            <div class="empty-feature"><span class="feature-icon">✓</span><span><strong>Understand the symptoms</strong><small>Separate what you noticed from possible causes.</small></span></div>
+            <div class="empty-feature"><span class="feature-icon">✓</span><span><strong>Prioritize safety</strong><small>See urgent guidance before routine advice.</small></span></div>
+            <div class="empty-feature"><span class="feature-icon">✓</span><span><strong>Choose a next step</strong><small>Know when to seek roadside assistance.</small></span></div>
+          </div>
+          <div id="loading-state" class="panel loading-state hidden" role="status" aria-live="polite" aria-busy="true">
+            <div class="loader" aria-hidden="true"></div><h2>Assessing your situation</h2><p>This one-shot local assessment usually takes under a minute. Check immediate safety first.</p><div class="loading-bar"><span></span></div>
+          </div>
+          <div id="error-state" class="error-panel hidden" role="alert"><strong>We couldn’t complete the assessment.</strong><p id="error-message"></p><button type="button" id="retry-button" class="secondary-button">Try again</button></div>
+          <div id="results" class="results hidden" aria-live="polite"></div>
+        </section>
+      </div>
+
+      <section class="bottom-note"><span class="note-icon">i</span><p><strong>Check immediate safety first.</strong> If there is fire, immediate danger, or anyone is injured, move to a safe location and contact local emergency services. RoadsideAI is an AI-generated preliminary assessment; this prototype does not automatically dispatch emergency services or replace a qualified mechanic.</p></section>
+    </main>
+
+    <footer><span>© 2026 RoadsideAI <span class="footer-dot">•</span> Hackathon prototype</span><span>Powered locally by <strong>{{ model }}</strong></span></footer>
+  </div>
+  <script>
+    const form = document.getElementById('assessment-form');
+    const description = document.getElementById('description');
+    const charCount = document.getElementById('char-count');
+    const submitButton = document.getElementById('submit-button');
+    const buttonLabel = document.getElementById('button-label');
+    const emptyState = document.getElementById('empty-state');
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+    const results = document.getElementById('results');
+    let lastPayload = null;
+
+    function updateCharCount() {
+      charCount.textContent = `${description.value.length} / 2000`;
+    }
+    description.addEventListener('input', updateCharCount);
+    document.querySelectorAll('[data-example]').forEach(button => button.addEventListener('click', () => {
+      description.value = button.dataset.example;
+      updateCharCount();
+      description.focus();
+    }));
+
+    function hideAll() {
+      [emptyState, loadingState, errorState, results].forEach(el => el.classList.add('hidden'));
+    }
+    function makeElement(tag, className, text) {
+      const el = document.createElement(tag);
+      if (className) el.className = className;
+      if (text !== undefined) el.textContent = text;
+      return el;
+    }
+    function addList(parent, items, className='') {
+      const list = makeElement('ul', className);
+      (Array.isArray(items) ? items : []).forEach(item => list.appendChild(makeElement('li', '', String(item))));
+      if (!list.children.length) list.appendChild(makeElement('li', '', 'No additional details provided.'));
+      parent.appendChild(list);
+    }
+    function sectionCard(title, icon, content, className='') {
+      const card = makeElement('section', `result-card ${className}`);
+      const heading = makeElement('div', 'result-card-heading');
+      heading.appendChild(makeElement('span', 'result-icon', icon));
+      heading.appendChild(makeElement('h3', '', title));
+      card.appendChild(heading);
+      if (typeof content === 'string') card.appendChild(makeElement('p', 'result-copy', content));
+      else card.appendChild(content);
+      return card;
+    }
+    function renderResult(data) {
+      results.replaceChildren();
+      if (data.safety_alert) {
+        const alert = makeElement('section', 'urgent-alert');
+        alert.setAttribute('role', 'alert');
+        alert.appendChild(makeElement('span', 'urgent-label', 'IMMEDIATE SAFETY ALERT'));
+        const matched = Array.isArray(data.safety_alert.matched_keywords) ? data.safety_alert.matched_keywords : [];
+        if (matched.length) alert.appendChild(makeElement('p', 'matched-keywords', `Matched: ${matched.join(', ')}`));
+        alert.appendChild(makeElement('p', 'urgent-copy', data.safety_alert.message || 'A high-risk symptom was recognized.'));
+        const immediateAdvice = Array.isArray(data.safety_advice) ? data.safety_advice.slice(0, 3) : [];
+        addList(alert, immediateAdvice, 'urgent-advice');
+        alert.appendChild(makeElement('p', 'urgent-disclaimer', 'If anyone is in immediate danger, contact local emergency services.'));
+        results.appendChild(alert);
+      }
+      const severity = ['low','moderate','high','emergency'].includes((data.severity || '').toLowerCase()) ? data.severity.toLowerCase() : 'moderate';
+      const top = makeElement('div', `severity-banner severity-${severity}`);
+      const badge = makeElement('span', 'severity-badge', severity.toUpperCase());
+      const topText = makeElement('div', '');
+      topText.appendChild(makeElement('span', 'step-label', 'ASSESSMENT PRIORITY'));
+      topText.appendChild(makeElement('h2', '', data.service_category || 'Roadside assessment'));
+      topText.appendChild(makeElement('p', '', data.summary || 'Review the reported symptoms and guidance below.'));
+      top.append(badge, topText);
+      results.appendChild(top);
+
+      const safety = sectionCard('Safety instructions', '!', null, 'safety-card');
+      addList(safety, data.safety_advice, 'safety-list');
+      results.appendChild(safety);
+
+      const action = makeElement('section', 'action-card');
+      const actionHead = makeElement('div', 'action-heading');
+      actionHead.appendChild(makeElement('span', 'action-symbol', '➜'));
+      actionHead.appendChild(makeElement('div', ''));
+      actionHead.lastChild.appendChild(makeElement('span', 'step-label', 'RECOMMENDED NEXT STEP'));
+      actionHead.lastChild.appendChild(makeElement('h3', '', 'What to do now'));
+      action.appendChild(actionHead);
+      action.appendChild(makeElement('p', 'action-copy', data.recommended_action || 'If the vehicle is unsafe, request roadside assistance.'));
+      results.appendChild(action);
+
+      const symptoms = sectionCard('Reported symptoms', '⌁', null);
+      addList(symptoms, data.reported_symptoms, 'symptoms-list');
+      results.appendChild(symptoms);
+
+      const causes = sectionCard('Possible explanations', '?', null);
+      causes.appendChild(makeElement('p', 'subtle-note', 'These are possibilities, not confirmed faults.'));
+      addList(causes, data.possible_explanations);
+      results.appendChild(causes);
+
+      const questions = sectionCard('A few follow-up questions', '…', null);
+      addList(questions, data.follow_up_questions, 'question-list');
+      const answerBox = makeElement('textarea', 'followup-input');
+      answerBox.rows = 2;
+      answerBox.placeholder = 'Add any answers or extra details…';
+      answerBox.setAttribute('aria-label', 'Answers to follow-up questions');
+      questions.appendChild(answerBox);
+      const refine = makeElement('button', 'secondary-button', 'Refine assessment →');
+      refine.type = 'button';
+      refine.addEventListener('click', () => {
+        const extra = answerBox.value.trim();
+        if (extra) {
+          description.value = `${lastPayload.description}\n\nAdditional answers:\n${extra}`;
+          updateCharCount();
+          if (description.value.length > 2000) {
+            description.setCustomValidity('The combined description and answers must be 2,000 characters or fewer.');
+            description.reportValidity();
+            description.setCustomValidity('');
+            return;
+          }
+          form.requestSubmit();
+          window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+      });
+      questions.appendChild(refine);
+      results.appendChild(questions);
+
+      const uncertainty = sectionCard('What we still don’t know', 'i', data.uncertainty || 'The cause cannot be confirmed from the description alone.');
+      results.appendChild(uncertainty);
+      results.appendChild(makeElement('p', 'disclaimer', data.ai_disclaimer || 'AI-assisted preliminary assessment only. Not a confirmed mechanical diagnosis.'));
+      const reset = makeElement('button', 'secondary-button reset-button', 'Start New Assessment');
+      reset.type = 'button';
+      reset.addEventListener('click', startNewAssessment);
+      results.appendChild(reset);
+      results.classList.remove('hidden');
+    }
+
+    async function submitAssessment(event) {
+      if (event) event.preventDefault();
+      const text = description.value.trim();
+      if (text.length < 8 || text.length > 2000) {
+        description.setCustomValidity(text.length > 2000
+          ? 'Please keep the description to 2,000 characters or fewer.'
+          : 'Please describe the breakdown in a little more detail (at least 8 characters).');
+        description.reportValidity();
+        description.setCustomValidity('');
+        return;
+      }
+      lastPayload = {
+        description: text,
+        vehicle: {
+          type: document.getElementById('vehicle-type').value,
+          make_model: document.getElementById('make-model').value.trim(),
+          powertrain: document.getElementById('powertrain').value,
+          can_move: document.getElementById('can-move').value
+        }
+      };
+      hideAll(); loadingState.classList.remove('hidden');
+      loadingState.setAttribute('aria-busy', 'true');
+      submitButton.disabled = true; buttonLabel.textContent = 'Analyzing…';
+      try {
+        const response = await fetch('/api/assess', {
+          method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(lastPayload),
+          signal: AbortSignal.timeout(55000)
+        });
+        let data;
+        try { data = await response.json(); }
+        catch { throw new Error('The app returned an unreadable response. Please try again.'); }
+        if (!response.ok) throw new Error(data.error || 'The request failed.');
+        hideAll(); renderResult(data);
+      } catch (error) {
+        hideAll(); errorState.classList.remove('hidden');
+        document.getElementById('error-message').textContent = error.name === 'TimeoutError'
+          ? 'The assessment took longer than expected. Please try again or check that Ollama is running.'
+          : (error.message || 'Please check that the local app and Ollama are running.');
+      } finally {
+        loadingState.setAttribute('aria-busy', 'false');
+        submitButton.disabled = false; buttonLabel.textContent = 'Analyze breakdown';
+      }
+    }
+    function startNewAssessment() {
+      hideAll();
+      emptyState.classList.remove('hidden');
+      description.value = '';
+      document.getElementById('vehicle-type').value = '';
+      document.getElementById('make-model').value = '';
+      document.getElementById('powertrain').value = '';
+      document.getElementById('can-move').value = '';
+      updateCharCount();
+      description.focus();
+    }
+    form.addEventListener('submit', submitAssessment);
+    document.getElementById('retry-button').addEventListener('click', () => form.requestSubmit());
+    document.querySelectorAll('[data-new-assessment]').forEach(button => button.addEventListener('click', startNewAssessment));
+
+    async function checkHealth() {
+      const el = document.getElementById('connection');
+      try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        el.className = `connection ${data.ok && data.model_available ? 'online' : 'offline'}`;
+        el.replaceChildren();
+        el.appendChild(makeElement('span', 'status-dot'));
+        el.appendChild(makeElement('span', '', data.ok ? (data.model_available ? 'Local AI connected' : 'Model not found') : 'Ollama offline'));
+      } catch {
+        el.className = 'connection offline';
+        el.replaceChildren(makeElement('span','status-dot'), makeElement('span','','Local AI unavailable'));
+      }
+    }
+    checkHealth();
+  </script>
+</body>
+</html>
