@@ -8,6 +8,48 @@ OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434")
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma4:e2b")
 REQUEST_TIMEOUT = 50
 MAX_DESCRIPTION_LENGTH = 2000
+ASSESSMENT_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "service_category": {"type": "string", "maxLength": 80},
+        "summary": {"type": "string", "maxLength": 180},
+        "reported_symptoms": {
+            "type": "array",
+            "items": {"type": "string", "maxLength": 80},
+            "maxItems": 2,
+        },
+        "possible_explanations": {
+            "type": "array",
+            "items": {"type": "string", "maxLength": 80},
+            "maxItems": 2,
+        },
+        "severity": {"type": "string", "enum": ["low", "moderate", "high", "emergency"]},
+        "safety_advice": {
+            "type": "array",
+            "items": {"type": "string", "maxLength": 120},
+            "maxItems": 2,
+        },
+        "recommended_action": {"type": "string", "maxLength": 160},
+        "follow_up_questions": {
+            "type": "array",
+            "items": {"type": "string", "maxLength": 100},
+            "maxItems": 2,
+        },
+        "uncertainty": {"type": "string", "maxLength": 160},
+    },
+    "required": [
+        "service_category",
+        "summary",
+        "reported_symptoms",
+        "possible_explanations",
+        "severity",
+        "safety_advice",
+        "recommended_action",
+        "follow_up_questions",
+        "uncertainty",
+    ],
+    "additionalProperties": False,
+}
 
 
 def detect_safety_flags(description):
@@ -231,7 +273,8 @@ Rules:
 - Never encourage risky inspections or roadside repairs.
 - Do not claim that help has been dispatched, a booking made, or a provider contacted.
 - Keep the language concise, calm, and practical.
-- Keep JSON values short and limit each list to at most three items.
+- Return only the JSON object, with no reasoning or commentary.
+- Keep values brief and limit each list to at most two short items.
 - If key facts are missing, ask follow-up questions.
 - Uncertainty must be plain language, not a made-up percentage.
 """
@@ -243,7 +286,7 @@ Rules:
             json={
                 "model": OLLAMA_MODEL,
                 "stream": False,
-                "format": "json",
+                "format": ASSESSMENT_SCHEMA,
                 "think": False,
                 "messages": [
                     {"role": "system", "content": system_prompt},
@@ -252,7 +295,7 @@ Rules:
                 "options": {
                     "temperature": 0.2,
                     "num_ctx": 2048,
-                    "num_predict": 256,
+                    "num_predict": 320,
                 }
             },
             timeout=REQUEST_TIMEOUT

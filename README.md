@@ -55,7 +55,7 @@ $env:OLLAMA_MODEL = "gemma4:e2b"
 python app.py
 ```
 
-The model is configured on the server; there is no model selector in the web interface. Ollama requests time out after 50 seconds. Generation is configured for concise answers without model reasoning, with a 2,048-token context and a 256-token output cap to keep local CPU inference responsive. On this machine, a warm local test response took about 22 seconds; first use can take longer while the model loads.
+The model is configured on the server; there is no model selector in the web interface. Ollama requests time out after 50 seconds. Generation is configured for concise answers without model reasoning, with schema-constrained JSON, a 2,048-token context, and a 320-token output cap to keep local CPU inference responsive. On this machine, a warm local test response took about 22 seconds; first use can take longer while the model loads.
 
 ## Online hosting
 

@@ -78,8 +78,10 @@ class RoadsideAppTests(unittest.TestCase):
         model_request = post.call_args.kwargs["json"]
         self.assertIn("Vehicle type: Car", model_request["messages"][1]["content"])
         self.assertFalse(model_request["think"])
+        self.assertEqual(model_request["format"]["type"], "object")
+        self.assertIn("recommended_action", model_request["format"]["required"])
         self.assertEqual(model_request["options"]["num_ctx"], 2048)
-        self.assertEqual(model_request["options"]["num_predict"], 256)
+        self.assertEqual(model_request["options"]["num_predict"], 320)
         self.assertEqual(post.call_args.kwargs["timeout"], 50)
 
     def test_partial_response_gets_safe_defaults_and_legacy_fields_map(self):
