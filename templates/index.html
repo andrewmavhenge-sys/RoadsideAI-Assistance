@@ -12,33 +12,47 @@
   <div class="app-shell">
     <header class="topbar">
       <a class="brand" href="/" aria-label="RoadsideAI home">
-        <span class="brand-mark" aria-hidden="true">R<span>+</span></span>
-        <span><strong>RoadsideAI</strong><small>INTELLIGENT ROADSIDE ASSISTANCE</small></span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="M5 19.5 7.2 13a3 3 0 0 1 2.8-2h12a3 3 0 0 1 2.8 2l2.2 6.5v6h-3v-3H8v3H5v-6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 18h16M10 22.5h.01M22 22.5h.01M11 11l1.4-3h7.2l1.4 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="m21 4 .8 2.2L24 7l-2.2.8L21 10l-.8-2.2L18 7l2.2-.8L21 4Z" fill="currentColor"/></svg>
+        </span>
+        <span class="brand-copy"><strong>Roadside<span>AI</span></strong><small>HELP FOR THE UNEXPECTED</small></span>
       </a>
       <div class="topbar-right">
         <div id="connection" class="connection" role="status" aria-live="polite"><span class="status-dot"></span><span>Checking local AI…</span></div>
-        <span class="local-pill"><span aria-hidden="true">●</span> LOCAL AI</span>
+        <span class="local-pill"><span aria-hidden="true">●</span> PRIVATE &amp; LOCAL</span>
         <button type="button" class="header-new secondary-button" data-new-assessment>New Assessment</button>
       </div>
     </header>
 
     <main>
       <section class="hero">
-        <div class="eyebrow"><span class="eyebrow-line"></span> HELP WHEN THE ROAD DOESN’T GO TO PLAN</div>
-        <h1>Breakdown happens.<br><span>Know your next move.</span></h1>
-        <p class="hero-copy">Describe what’s happening with your vehicle. Get a clear, safety-first assessment powered by your local AI.</p>
-        <div class="trust-row"><span>◇ Runs on your device</span><span>◇ Safety-first guidance</span><span>◇ No paid AI API</span></div>
+        <div class="hero-main">
+          <div class="eyebrow"><span class="eyebrow-line"></span> A LITTLE HELP GOES A LONG WAY</div>
+          <h1>When the unexpected happens,<br><span>start with a clear next step.</span></h1>
+          <p class="hero-copy">Tell us what’s going on. Get calm, practical guidance to help you decide what to do next.</p>
+          <div class="trust-row"><span><i aria-hidden="true">✓</i> Safety comes first</span><span><i aria-hidden="true">✓</i> No guesswork presented as fact</span></div>
+        </div>
+        <aside class="hero-note" aria-label="Important safety reminder">
+          <span class="hero-note-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 20 6v5.5c0 4.8-3.3 8-8 9.5-4.7-1.5-8-4.7-8-9.5V6l8-3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m8.5 12 2.3 2.3 4.8-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="hero-note-label">FIRST THINGS FIRST</span>
+          <strong>Are you somewhere safe?</strong>
+          <span>If you’re in immediate danger, move away from traffic and call your local emergency services.</span>
+        </aside>
       </section>
 
       <div class="workspace">
         <section class="panel report-panel">
           <div class="panel-heading">
-            <div><span class="step-label">STEP 01</span><h2>Describe the problem</h2><p>Share the symptoms you’ve noticed.</p></div>
-            <span class="heading-icon" aria-hidden="true">⌁</span>
+            <div><span class="step-label">YOUR VEHICLE</span><h2>What’s going on?</h2><p>Start with what you noticed. Small details can help.</p></div>
+            <span class="heading-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M3 15.5 5 9a2.5 2.5 0 0 1 2.4-1.8h9.2A2.5 2.5 0 0 1 19 9l2 6.5V20h-3v-2H6v2H3v-4.5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M5 14h14M8 10h.01M16 10h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </span>
           </div>
 
           <form id="assessment-form">
-            <label for="description">What happened?</label>
+            <label for="description">Describe what happened</label>
             <textarea id="description" name="description" rows="5" maxlength="2000" aria-describedby="description-help char-count" placeholder="Describe what happened to your vehicle…" required></textarea>
             <div class="field-meta"><span id="description-help">Be as specific as you can.</span><span id="char-count" aria-live="polite">0 / 2000</span></div>
 
@@ -68,7 +82,7 @@
             </div>
 
             <div class="examples">
-              <div class="examples-label">TRY AN EXAMPLE</div>
+              <div class="examples-label">NOT SURE WHERE TO START? TRY ONE</div>
               <div class="example-buttons">
                 <button type="button" class="example-chip" data-example="My engine temperature gauge is in the red and steam is coming from under the bonnet.">♨ Overheating</button>
                 <button type="button" class="example-chip" data-example="I have a flat tire on the roadside and traffic is passing close by.">◉ Flat tire</button>
@@ -78,33 +92,33 @@
               </div>
             </div>
 
-            <button id="submit-button" class="primary-button" type="submit"><span class="button-icon">✦</span><span id="button-label">Analyze breakdown</span><span class="button-arrow">→</span></button>
-            <p class="privacy-note"><span>▣</span> Your description is sent to your local Ollama instance on this computer.</p>
+            <button id="submit-button" class="primary-button" type="submit"><span class="button-icon" aria-hidden="true">✦</span><span id="button-label">Get my next steps</span><span class="button-arrow" aria-hidden="true">→</span></button>
+            <p class="privacy-note"><span aria-hidden="true">●</span> Your description is processed by the local AI on this computer.</p>
           </form>
         </section>
 
         <section class="results-column" aria-live="polite">
           <div id="empty-state" class="panel empty-state" aria-live="polite">
             <div class="empty-art"><div class="art-ring ring-one"></div><div class="art-ring ring-two"></div><div class="car-icon">↗</div><span class="art-spark spark-one">✦</span><span class="art-spark spark-two">✧</span></div>
-            <span class="step-label">YOUR ASSESSMENT</span>
-            <h2>Your next step starts here.</h2>
-            <p>Once you submit a breakdown description, your assessment will appear here with clear actions and safety guidance.</p>
-            <div class="empty-feature"><span class="feature-icon">✓</span><span><strong>Understand the symptoms</strong><small>Separate what you noticed from possible causes.</small></span></div>
-            <div class="empty-feature"><span class="feature-icon">✓</span><span><strong>Prioritize safety</strong><small>See urgent guidance before routine advice.</small></span></div>
-            <div class="empty-feature"><span class="feature-icon">✓</span><span><strong>Choose a next step</strong><small>Know when to seek roadside assistance.</small></span></div>
+            <span class="step-label">A CLEARER WAY FORWARD</span>
+            <h2>Let’s figure out your next step.</h2>
+            <p>Your assessment will show what you reported, what might explain it, and practical safety guidance.</p>
+            <div class="empty-feature"><span class="feature-icon">01</span><span><strong>Start with what you noticed</strong><small>Your reported symptoms stay separate from possible causes.</small></span></div>
+            <div class="empty-feature"><span class="feature-icon">02</span><span><strong>Prioritize safety</strong><small>See urgent guidance before routine advice.</small></span></div>
+            <div class="empty-feature"><span class="feature-icon">03</span><span><strong>Choose a next step</strong><small>Know when to seek roadside assistance.</small></span></div>
           </div>
           <div id="loading-state" class="panel loading-state hidden" role="status" aria-live="polite" aria-busy="true">
-            <div class="loader" aria-hidden="true"></div><h2>Assessing your situation</h2><p>This one-shot local assessment usually takes under a minute. Check immediate safety first.</p><div class="loading-bar"><span></span></div>
+            <div class="loader" aria-hidden="true"></div><span class="step-label">PLEASE HOLD ON</span><h2>Looking at what you described</h2><p>Your local assistant is preparing clear, practical next steps. Check immediate safety first.</p><div class="loading-bar"><span></span></div>
           </div>
           <div id="error-state" class="error-panel hidden" role="alert"><strong>We couldn’t complete the assessment.</strong><p id="error-message"></p><button type="button" id="retry-button" class="secondary-button">Try again</button></div>
           <div id="results" class="results hidden" aria-live="polite"></div>
         </section>
       </div>
 
-      <section class="bottom-note"><span class="note-icon">i</span><p><strong>Check immediate safety first.</strong> If there is fire, immediate danger, or anyone is injured, move to a safe location and contact local emergency services. RoadsideAI is an AI-generated preliminary assessment; this prototype does not automatically dispatch emergency services or replace a qualified mechanic.</p></section>
+      <section class="bottom-note"><span class="note-icon" aria-hidden="true">!</span><p><strong>Safety before everything.</strong> If there is fire, immediate danger, or anyone is injured, move to a safe location and contact local emergency services. RoadsideAI offers an AI-generated preliminary assessment. It does not dispatch help or replace a qualified mechanic.</p></section>
     </main>
 
-    <footer><span>© 2026 RoadsideAI <span class="footer-dot">•</span> Hackathon prototype</span><span>Powered locally by <strong>{{ model }}</strong></span></footer>
+    <footer><span class="footer-brand"><span class="footer-mark" aria-hidden="true">R</span><span><strong>RoadsideAI</strong><small>Intelligent roadside assistance</small></span></span><span><strong>{{ model }}</strong> <span class="footer-dot">·</span> AI-generated guidance, not a confirmed diagnosis</span></footer>
   </div>
   <script>
     const form = document.getElementById('assessment-form');

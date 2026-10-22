@@ -42,7 +42,9 @@ class RoadsideAppTests(unittest.TestCase):
     def test_homepage_renders_assessment_form(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Analyze breakdown", response.data)
+        self.assertIn(b"Get my next steps", response.data)
+        self.assertIn(b"A LITTLE HELP GOES A LONG WAY", response.data)
+        self.assertIn(b"Are you somewhere safe?", response.data)
         self.assertIn(b"2000", response.data)
 
     def test_rejects_short_description_without_calling_ollama(self):
