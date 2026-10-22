@@ -45,6 +45,7 @@ class RoadsideAppTests(unittest.TestCase):
         self.assertIn(b"Get my next steps", response.data)
         self.assertIn(b"A LITTLE HELP GOES A LONG WAY", response.data)
         self.assertIn(b"Are you somewhere safe?", response.data)
+        self.assertIn(b"else if (content instanceof Node)", response.data)
         self.assertIn(b"2000", response.data)
 
     def test_rejects_short_description_without_calling_ollama(self):

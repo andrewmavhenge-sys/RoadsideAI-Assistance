@@ -163,8 +163,11 @@
       heading.appendChild(makeElement('span', 'result-icon', icon));
       heading.appendChild(makeElement('h3', '', title));
       card.appendChild(heading);
-      if (typeof content === 'string') card.appendChild(makeElement('p', 'result-copy', content));
-      else card.appendChild(content);
+      if (typeof content === 'string') {
+        card.appendChild(makeElement('p', 'result-copy', content));
+      } else if (content instanceof Node) {
+        card.appendChild(content);
+      }
       return card;
     }
     function renderResult(data) {
@@ -291,7 +294,7 @@
           : (error.message || 'Please check that the local app and Ollama are running.');
       } finally {
         loadingState.setAttribute('aria-busy', 'false');
-        submitButton.disabled = false; buttonLabel.textContent = 'Analyze breakdown';
+        submitButton.disabled = false; buttonLabel.textContent = 'Get my next steps';
       }
     }
     function startNewAssessment() {
